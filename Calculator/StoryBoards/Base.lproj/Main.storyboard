@@ -301,9 +301,13 @@
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <connections>
+                        <outlet property="addButton" destination="2wm-sr-lAK" id="dIG-S9-pQl"/>
+                        <outlet property="divideButton" destination="ue0-NO-gT7" id="G7g-Fw-2tY"/>
                         <outlet property="expressionLabel" destination="NSY-3C-4wD" id="srm-ZV-3so"/>
+                        <outlet property="multiplyButton" destination="3xK-WK-08J" id="YlO-Sv-cKt"/>
                         <outlet property="resetButton" destination="KpV-9K-ENd" id="3f2-zU-Hom"/>
                         <outlet property="resultLabel" destination="j7w-wT-FmG" id="bPj-2f-ZTa"/>
+                        <outlet property="subtractButton" destination="MBE-hk-8xg" id="lIH-XE-7O7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

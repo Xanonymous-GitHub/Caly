@@ -20,6 +20,11 @@ class ViewController: UIViewController {
     @IBOutlet var resultLabel: UILabel!
     @IBOutlet var resetButton: UIButton!
     
+    @IBOutlet var addButton: UIButton!
+    @IBOutlet var subtractButton: UIButton!
+    @IBOutlet var multiplyButton: UIButton!
+    @IBOutlet var divideButton: UIButton!
+    
     private final var _currentValue: String?
     private final var _currentOperaion: operation?
     private final var _hasDotInCurrentValue = false
@@ -72,7 +77,7 @@ class ViewController: UIViewController {
     
     private func _modifyCurrentValue(value cell: String) {
         if cell.isNumber() {
-            _shouldAC = false
+            _shouldAC = _expressions.isEmpty
             
             if _currentValue == nil {
                 
@@ -89,6 +94,7 @@ class ViewController: UIViewController {
                 _expressions.append(contentsOf: expression)
                 _currentValue = cell
                 _isLastOperation = true
+                _shouldAC = _expressions.isEmpty
                 _isCurrentValueNegative = false
                 _hasDotInCurrentValue = false
                 _shouldInsertCurrentExpressionCell = false
@@ -104,7 +110,7 @@ class ViewController: UIViewController {
                 let expression = _insertCurrentExpressionCell()
                 _expressions.append(contentsOf: expression)
                 _currentValue = "0."
-                _shouldAC = false
+                _shouldAC = _expressions.isEmpty
                 _isLastOperation = true
                 _isCurrentValueNegative = false
                 _hasDotInCurrentValue = false
@@ -116,7 +122,7 @@ class ViewController: UIViewController {
                 return
             }
             
-            _shouldAC = false
+            _shouldAC = _expressions.isEmpty
             _hasDotInCurrentValue = true
             
             if _currentValue == nil {
