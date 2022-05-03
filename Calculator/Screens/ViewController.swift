@@ -8,23 +8,43 @@
 import UIKit
 import MathExpression
 
+fileprivate enum operation: String {
+    case add = "+"
+    case subtract = "-"
+    case multiply = "×"
+    case divide = "÷"
+}
+
 class ViewController: UIViewController {
     @IBOutlet var expressionLabel: UILabel!
     @IBOutlet var resultLabel: UILabel!
+    
+    private final var _currentValue: String?
+    private final var _currentOperaion: operation?
+    private final var _hasDotInCurrentValue = false
+    private final var _isCurrentValueNegative = false
+    private final var _shouldInsertCurrentExpressionCell = false
+    private final var _isLastOperation = false
     
     /// Used to store formulas.
     /// Stored in an array, each number and calculation symbol will be separated.
     private final var _expressions: Array<String> = [] {
         didSet {
-            var displayText = _expressions.joined(separator: " ")
-            
-            _mathOperatorDisplayDict.forEach { (displayChar, realOptr) in
-                displayText = displayText.replacingOccurrences(of: realOptr, with: displayChar)
-            }
-            
-            // Update UI for showing current formula.
-            expressionLabel.text = displayText
+            _updateDisplayFormula()
         }
+    }
+    
+    private func _updateDisplayFormula() {
+        var displayText = _expressions.joined(separator: " ")
+        
+        _mathOperatorDisplayDict.forEach { (displayChar, realOptr) in
+            displayText = displayText.replacingOccurrences(of: realOptr, with: displayChar)
+        }
+        
+        let currentExpressions = _insertCurrentExpressionCell(expectOperation: _isLastOperation)
+        
+        // Update UI for showing current formula.
+        expressionLabel.text = displayText + " " + currentExpressions.joined(separator: " ")
     }
     
     /// Mathematical operation sub-character comparison table,
@@ -35,41 +55,130 @@ class ViewController: UIViewController {
         "×": "*",
         "÷": "/",
     ]
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         _resetFormula()
     }
     
-    private func _addExpressionCell(cell: String) {
-        let isNumber = cell.isNumber()
-        
-        if (isNumber) {
-            // Ensure zero is not the first cell in expression.
-            if (cell == "0" && _expressions.count == 0) {
+    private func _modifyCurrentValue(value cell: String) {
+        if cell.isNumber() {
+            if _currentValue == nil {
+                if cell == "0" {
+                    return
+                }
+                
+                _currentValue = cell
                 return
             }
             
-            // Add numbers into the expression line.
-            _expressions.append(cell)
+            if _shouldInsertCurrentExpressionCell {
+                let expression = _insertCurrentExpressionCell()
+                _expressions.append(contentsOf: expression)
+                _currentValue = cell
+                _isLastOperation = true
+                _isCurrentValueNegative = false
+                _hasDotInCurrentValue = false
+                _shouldInsertCurrentExpressionCell = false
+                return
+            }
+            
+            _currentValue! += cell
             return
         }
         
-        let lastCell = _expressions.last
-        
-        // We need to ensure the previous (last) cell in the expression line is a number
-        if (lastCell?.isNumber() ?? false) {
-            _expressions.append(cell)
+        if cell == "." {
+            if _shouldInsertCurrentExpressionCell {
+                let expression = _insertCurrentExpressionCell()
+                _expressions.append(contentsOf: expression)
+                _currentValue = "0."
+                _isLastOperation = true
+                _isCurrentValueNegative = false
+                _hasDotInCurrentValue = false
+                _shouldInsertCurrentExpressionCell = false
+                return
+            }
+            
+            if _hasDotInCurrentValue {
+                return
+            }
+            
+            _hasDotInCurrentValue = true
+            
+            if _currentValue == nil {
+                _currentValue = "0."
+                return
+            }
+            
+            _currentValue! += "."
         }
+        
+        if cell == "%" {
+            if _currentValue == nil {
+                return
+            }
+            
+            _currentValue = String(Double(_currentValue!)! * 0.01)
+        }
+    }
+    
+    private func _modifyCurrentOperation(operation: operation) {
+        _currentOperaion = operation
+        
+        if _currentValue == nil {
+            return
+        }
+        
+        _isLastOperation = false
+        _shouldInsertCurrentExpressionCell = true
+    }
+    
+    private func _toggleCurrentNegativeStatus() {
+        _isCurrentValueNegative = !_isCurrentValueNegative
     }
     
     /// Zero the calculator, clear all formulas, reset the screen.
     private func _resetFormula() {
         _expressions.removeAll()
+        _hasDotInCurrentValue = false
+        _isCurrentValueNegative = false
+        _shouldInsertCurrentExpressionCell = false
+        _isLastOperation = false
+        _currentValue = nil
+        _currentOperaion = nil
         resultLabel.text = "0"
     }
     
+    private func _insertCurrentExpressionCell(expectOperation: Bool = false) -> Array<String> {
+        var expressions: Array<String> = []
+        
+        if _currentValue == nil {
+            return expressions
+        }
+        
+        if _isCurrentValueNegative {
+            expressions.append("(-" + _currentValue! + ")")
+        } else {
+            expressions.append(_currentValue!)
+        }
+        
+        if !expectOperation && _currentOperaion != nil {
+            expressions.append(_currentOperaion!.rawValue)
+        }
+        
+        return expressions
+    }
+    
     private func _calculateFormulaResult() throws {
+        let currentExpression = _insertCurrentExpressionCell(expectOperation: true)
+        
+        _currentValue = nil
+        _isCurrentValueNegative = false
+        _hasDotInCurrentValue = false
+        _isLastOperation = true
+        
+        _expressions.append(contentsOf: currentExpression)
+        
         if (_expressions.isEmpty) {
             return
         }
@@ -79,14 +188,20 @@ class ViewController: UIViewController {
             throw "NaN"
         }
         
-        let lastCell = _expressions.last
         
-        // Check if it is a complete formula.
-        // If the last cell of the formula is not a number, it is ignored.
-        let formula = lastCell?.isNumber() ?? true ? _expressions.joined() : _expressions[..<(_expressions.endIndex - 1)].joined()
+        var formula = _expressions.joined()
+        
+        _mathOperatorDisplayDict.forEach { (displayChar, realOptr) in
+            formula = formula.replacingOccurrences(of: displayChar, with: realOptr)
+        }
         
         let realExpression = try MathExpression(formula)
         let result = realExpression.evaluate()
+        
+        if result.isNaN || result.isInfinite {
+            _resetFormula()
+            throw "NaN"
+        }
         
         let resultWithoutPoint = Int(result)
         
@@ -97,7 +212,7 @@ class ViewController: UIViewController {
     
     private func _hasDivideZero() -> Bool {
         for (index, cell) in _expressions.enumerated() {
-            if (cell == "/" && index != (_expressions.endIndex - 1) && _expressions[index + 1] == "0") {
+            if cell == "/" && index != (_expressions.endIndex - 1) && _expressions[index + 1] == "0" {
                 return true
             }
         }
@@ -110,22 +225,21 @@ class ViewController: UIViewController {
         let clickedNumber = sender.configuration?.title
         
         // Since all possible `sender` of this function are pre-defined, which not have a nil title, so we can directly use `!` to destruct the Optinal.
-        _addExpressionCell(cell: clickedNumber!)
+        _modifyCurrentValue(value: clickedNumber!)
+        _updateDisplayFormula()
     }
     
     /// "Touch up Inside" event handler for operator buttons (+, -, ×, ÷).
     @IBAction func onOperatorClicked(_ sender: UIButton, forEvent event: UIEvent) {
-        let clickedNumber = sender.configuration?.title
-        
-        let realOperatorSymbol = _mathOperatorDisplayDict[clickedNumber!]
-        
-        // Since all operators are pre-defined in the dict, so there's impossible to have a nil situation.
-        _addExpressionCell(cell: realOperatorSymbol!)
+        let clickedOperation = operation.init(rawValue: sender.configuration!.title!)
+        _modifyCurrentOperation(operation: clickedOperation!)
+        _updateDisplayFormula()
     }
     
     /// "Touch up Inside" event handler for the reset button (AC).
     @IBAction func onResetClicked(_ sender: UIButton, forEvent event: UIEvent) {
         _resetFormula()
+        _updateDisplayFormula()
     }
     
     /// "Touch up Inside" event handler for the calculate button (=).
@@ -137,12 +251,30 @@ class ViewController: UIViewController {
             print("NaN!")
             resultLabel.text = "NaN"
         }
+        _updateDisplayFormula()
+    }
+    
+    
+    @IBAction func onSignedClicked(_ sender: UIButton, forEvent event: UIEvent) {
+        _toggleCurrentNegativeStatus()
+        _updateDisplayFormula()
+    }
+    
+    @IBAction func onDotClicked(_ sender: UIButton, forEvent event: UIEvent) {
+        _modifyCurrentValue(value: ".")
+        _updateDisplayFormula()
+    }
+    
+    
+    @IBAction func onPercentClicked(_ sender: UIButton, forEvent event: UIEvent) {
+        _modifyCurrentValue(value: "%")
+        _updateDisplayFormula()
     }
 }
 
 fileprivate extension String {
-func isNumber() -> Bool {
-    return !self.isEmpty && self.rangeOfCharacter(from: CharacterSet.decimalDigits) != nil && self.rangeOfCharacter(from: CharacterSet.letters) == nil
-}}
+    func isNumber() -> Bool {
+        return !self.isEmpty && self.rangeOfCharacter(from: CharacterSet.decimalDigits) != nil && self.rangeOfCharacter(from: CharacterSet.letters) == nil
+    }}
 
 extension String: Error {}
