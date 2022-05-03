@@ -302,6 +302,7 @@
                     </view>
                     <connections>
                         <outlet property="expressionLabel" destination="NSY-3C-4wD" id="srm-ZV-3so"/>
+                        <outlet property="resetButton" destination="KpV-9K-ENd" id="3f2-zU-Hom"/>
                         <outlet property="resultLabel" destination="j7w-wT-FmG" id="bPj-2f-ZTa"/>
                     </connections>
                 </viewController>

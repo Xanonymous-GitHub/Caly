@@ -18,6 +18,7 @@ fileprivate enum operation: String {
 class ViewController: UIViewController {
     @IBOutlet var expressionLabel: UILabel!
     @IBOutlet var resultLabel: UILabel!
+    @IBOutlet var resetButton: UIButton!
     
     private final var _currentValue: String?
     private final var _currentOperaion: operation?
@@ -25,16 +26,17 @@ class ViewController: UIViewController {
     private final var _isCurrentValueNegative = false
     private final var _shouldInsertCurrentExpressionCell = false
     private final var _isLastOperation = false
+    private final var _shouldAC = true
     
     /// Used to store formulas.
     /// Stored in an array, each number and calculation symbol will be separated.
     private final var _expressions: Array<String> = [] {
         didSet {
-            _updateDisplayFormula()
+            _updateDisplay()
         }
     }
     
-    private func _updateDisplayFormula() {
+    private func _updateDisplay() {
         var displayText = _expressions.joined(separator: " ")
         
         _mathOperatorDisplayDict.forEach { (displayChar, realOptr) in
@@ -45,6 +47,12 @@ class ViewController: UIViewController {
         
         // Update UI for showing current formula.
         expressionLabel.text = displayText + " " + currentExpressions.joined(separator: " ")
+        
+        if _shouldAC {
+            resetButton.setTitle("AC", for: .normal)
+        } else {
+            resetButton.setTitle("C", for: .normal)
+        }
     }
     
     /// Mathematical operation sub-character comparison table,
@@ -68,6 +76,7 @@ class ViewController: UIViewController {
                     return
                 }
                 
+                _shouldAC = false
                 _currentValue = cell
                 return
             }
@@ -83,6 +92,7 @@ class ViewController: UIViewController {
                 return
             }
             
+            _shouldAC = false
             _currentValue! += cell
             return
         }
@@ -92,6 +102,7 @@ class ViewController: UIViewController {
                 let expression = _insertCurrentExpressionCell()
                 _expressions.append(contentsOf: expression)
                 _currentValue = "0."
+                _shouldAC = false
                 _isLastOperation = true
                 _isCurrentValueNegative = false
                 _hasDotInCurrentValue = false
@@ -103,6 +114,7 @@ class ViewController: UIViewController {
                 return
             }
             
+            _shouldAC = false
             _hasDotInCurrentValue = true
             
             if _currentValue == nil {
@@ -149,6 +161,14 @@ class ViewController: UIViewController {
         resultLabel.text = "0"
     }
     
+    private func _c() {
+        _currentValue = nil
+        _isLastOperation = true
+        _hasDotInCurrentValue = false
+        _isCurrentValueNegative = false
+        _shouldAC = true
+    }
+    
     private func _insertCurrentExpressionCell(expectOperation: Bool = false) -> Array<String> {
         var expressions: Array<String> = []
         
@@ -172,10 +192,7 @@ class ViewController: UIViewController {
     private func _calculateFormulaResult() throws {
         let currentExpression = _insertCurrentExpressionCell(expectOperation: true)
         
-        _currentValue = nil
-        _isCurrentValueNegative = false
-        _hasDotInCurrentValue = false
-        _isLastOperation = true
+        _c()
         
         _expressions.append(contentsOf: currentExpression)
         
@@ -226,20 +243,25 @@ class ViewController: UIViewController {
         
         // Since all possible `sender` of this function are pre-defined, which not have a nil title, so we can directly use `!` to destruct the Optinal.
         _modifyCurrentValue(value: clickedNumber!)
-        _updateDisplayFormula()
+        _updateDisplay()
     }
     
     /// "Touch up Inside" event handler for operator buttons (+, -, ×, ÷).
     @IBAction func onOperatorClicked(_ sender: UIButton, forEvent event: UIEvent) {
         let clickedOperation = operation.init(rawValue: sender.configuration!.title!)
         _modifyCurrentOperation(operation: clickedOperation!)
-        _updateDisplayFormula()
+        _updateDisplay()
     }
     
     /// "Touch up Inside" event handler for the reset button (AC).
     @IBAction func onResetClicked(_ sender: UIButton, forEvent event: UIEvent) {
-        _resetFormula()
-        _updateDisplayFormula()
+        if _shouldAC {
+            _resetFormula()
+        } else {
+            _c()
+        }
+        
+        _updateDisplay()
     }
     
     /// "Touch up Inside" event handler for the calculate button (=).
@@ -251,24 +273,24 @@ class ViewController: UIViewController {
             print("NaN!")
             resultLabel.text = "NaN"
         }
-        _updateDisplayFormula()
+        _updateDisplay()
     }
     
     
     @IBAction func onSignedClicked(_ sender: UIButton, forEvent event: UIEvent) {
         _toggleCurrentNegativeStatus()
-        _updateDisplayFormula()
+        _updateDisplay()
     }
     
     @IBAction func onDotClicked(_ sender: UIButton, forEvent event: UIEvent) {
         _modifyCurrentValue(value: ".")
-        _updateDisplayFormula()
+        _updateDisplay()
     }
     
     
     @IBAction func onPercentClicked(_ sender: UIButton, forEvent event: UIEvent) {
         _modifyCurrentValue(value: "%")
-        _updateDisplayFormula()
+        _updateDisplay()
     }
 }
 
