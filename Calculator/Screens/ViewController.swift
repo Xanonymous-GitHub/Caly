@@ -27,6 +27,7 @@ class ViewController: UIViewController {
     private final var _shouldInsertCurrentExpressionCell = false
     private final var _isLastOperation = false
     private final var _shouldAC = true
+    private final var _lastResult = 0.0
     
     /// Used to store formulas.
     /// Stored in an array, each number and calculation symbol will be separated.
@@ -71,13 +72,15 @@ class ViewController: UIViewController {
     
     private func _modifyCurrentValue(value cell: String) {
         if cell.isNumber() {
+            _shouldAC = false
+            
             if _currentValue == nil {
-                if cell == "0" {
-                    return
-                }
                 
-                _shouldAC = false
                 _currentValue = cell
+                return
+            }
+            
+            if cell == "0" && _currentValue == "0" {
                 return
             }
             
@@ -92,7 +95,6 @@ class ViewController: UIViewController {
                 return
             }
             
-            _shouldAC = false
             _currentValue! += cell
             return
         }
@@ -137,12 +139,13 @@ class ViewController: UIViewController {
     private func _modifyCurrentOperation(operation: operation) {
         _currentOperaion = operation
         
-        if _currentValue == nil {
-            return
-        }
-        
         _isLastOperation = false
         _shouldInsertCurrentExpressionCell = true
+        
+        if _currentValue == nil {
+            let lastResultWithoutPoint = Int(_lastResult)
+            _currentValue = Double(lastResultWithoutPoint) == _lastResult ? String(lastResultWithoutPoint) : String(_lastResult)
+        }
     }
     
     private func _toggleCurrentNegativeStatus() {
@@ -158,6 +161,7 @@ class ViewController: UIViewController {
         _isLastOperation = false
         _currentValue = nil
         _currentOperaion = nil
+        _lastResult = 0.0
         resultLabel.text = "0"
     }
     
@@ -219,6 +223,8 @@ class ViewController: UIViewController {
             _resetFormula()
             throw "NaN"
         }
+        
+        _lastResult = result
         
         let resultWithoutPoint = Int(result)
         
