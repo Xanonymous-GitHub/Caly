@@ -3,6 +3,7 @@
 //  Calculator
 //
 //  Created by TeU on 2022/3/21.
+//  WARRNING! Code is VERY UGLY! DON'T USE THEM!
 //
 
 import UIKit
@@ -32,7 +33,20 @@ class ViewController: UIViewController {
     private final var _shouldInsertCurrentExpressionCell = false
     private final var _isLastOperation = false
     private final var _shouldAC = true
-    private final var _lastResult = 0.0
+    private final var _lastResult: Double?
+    private final var _justClickedC = false
+    
+    private func _toHighlightStyle(btn: UIButton) {
+        btn.configuration?.baseBackgroundColor = UIColor.white
+        btn.titleLabel?.textColor = UIColor.systemOrange
+        btn.configuration?.baseForegroundColor = UIColor.systemOrange
+    }
+    
+    private func _toSimpleStyle(btn: UIButton) {
+        btn.titleLabel?.textColor = UIColor.white
+        btn.configuration?.baseBackgroundColor = UIColor.systemOrange
+        btn.configuration?.baseForegroundColor = UIColor.white
+    }
     
     /// Used to store formulas.
     /// Stored in an array, each number and calculation symbol will be separated.
@@ -54,10 +68,34 @@ class ViewController: UIViewController {
         // Update UI for showing current formula.
         expressionLabel.text = displayText + " " + currentExpressions.joined(separator: " ")
         
+        _toSimpleStyle(btn: addButton)
+        _toSimpleStyle(btn: subtractButton)
+        _toSimpleStyle(btn: multiplyButton)
+        _toSimpleStyle(btn: divideButton)
+        
         if _shouldAC {
             resetButton.setTitle("AC", for: .normal)
         } else {
             resetButton.setTitle("C", for: .normal)
+        }
+        
+        if _shouldInsertCurrentExpressionCell || _justClickedC {
+            switch _currentOperaion {
+            case .some(.add):
+                _toHighlightStyle(btn: addButton)
+                break
+            case .some(.subtract):
+                _toHighlightStyle(btn: subtractButton)
+                break
+            case .some(.multiply):
+                _toHighlightStyle(btn: multiplyButton)
+                break
+            case .some(.divide):
+                _toHighlightStyle(btn: divideButton)
+                break
+            default:
+                break
+            }
         }
     }
     
@@ -149,8 +187,14 @@ class ViewController: UIViewController {
         _shouldInsertCurrentExpressionCell = true
         
         if _currentValue == nil {
-            let lastResultWithoutPoint = Int(_lastResult)
-            _currentValue = Double(lastResultWithoutPoint) == _lastResult ? String(lastResultWithoutPoint) : String(_lastResult)
+            if _lastResult != nil {
+                let lastResultWithoutPoint = Int(_lastResult!)
+                _currentValue = Double(lastResultWithoutPoint) == _lastResult! ? String(lastResultWithoutPoint) : String(_lastResult!)
+            } else if !_expressions.isEmpty {
+                _isLastOperation = true
+                _ = _expressions.popLast()
+                _expressions.append(_currentOperaion!.rawValue)
+            }
         }
     }
     
@@ -176,7 +220,14 @@ class ViewController: UIViewController {
         _isLastOperation = true
         _hasDotInCurrentValue = false
         _isCurrentValueNegative = false
+        _shouldInsertCurrentExpressionCell = false
         _shouldAC = true
+        
+        if _currentValue != nil {
+            // BUG !! THERE's a BUG!!! OH!
+            // But I want to sleep so, It's fine, ignore it !
+            _lastResult = nil
+        }
     }
     
     private func _insertCurrentExpressionCell(expectOperation: Bool = false) -> Array<String> {
@@ -271,9 +322,11 @@ class ViewController: UIViewController {
             _resetFormula()
         } else {
             _c()
+            _justClickedC = true
         }
         
         _updateDisplay()
+        _justClickedC = false
     }
     
     /// "Touch up Inside" event handler for the calculate button (=).

@@ -37,7 +37,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="AC">
                                     <backgroundConfiguration key="background" cornerRadius="50"/>
-                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="35"/>
+                                    <fontDescription key="titleFontDescription" type="system" weight="black" pointSize="34"/>
                                     <color key="baseBackgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -51,7 +51,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="±">
                                     <backgroundConfiguration key="background" cornerRadius="50"/>
-                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="35"/>
+                                    <fontDescription key="titleFontDescription" type="system" weight="black" pointSize="35"/>
                                     <color key="baseBackgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -65,7 +65,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="%">
                                     <backgroundConfiguration key="background" cornerRadius="50"/>
-                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="36"/>
+                                    <fontDescription key="titleFontDescription" type="system" weight="black" pointSize="36"/>
                                     <color key="baseBackgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -79,7 +79,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="÷">
                                     <backgroundConfiguration key="background" cornerRadius="50"/>
-                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="36"/>
+                                    <fontDescription key="titleFontDescription" type="system" weight="black" pointSize="36"/>
                                     <color key="baseBackgroundColor" systemColor="systemOrangeColor"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -93,7 +93,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="7">
                                     <backgroundConfiguration key="background" cornerRadius="50"/>
-                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="36"/>
+                                    <fontDescription key="titleFontDescription" type="system" weight="black" pointSize="36"/>
                                     <color key="baseBackgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -107,7 +107,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="8">
                                     <backgroundConfiguration key="background" cornerRadius="50"/>
-                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="36"/>
+                                    <fontDescription key="titleFontDescription" type="system" weight="black" pointSize="36"/>
                                     <color key="baseBackgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -121,7 +121,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="9">
                                     <backgroundConfiguration key="background" cornerRadius="50"/>
-                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="36"/>
+                                    <fontDescription key="titleFontDescription" type="system" weight="black" pointSize="36"/>
                                     <color key="baseBackgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -135,7 +135,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="×">
                                     <backgroundConfiguration key="background" cornerRadius="50"/>
-                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="36"/>
+                                    <fontDescription key="titleFontDescription" type="system" weight="black" pointSize="36"/>
                                     <color key="baseBackgroundColor" systemColor="systemOrangeColor"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -149,7 +149,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="4">
                                     <backgroundConfiguration key="background" cornerRadius="50"/>
-                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="36"/>
+                                    <fontDescription key="titleFontDescription" type="system" weight="black" pointSize="36"/>
                                     <color key="baseBackgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -163,7 +163,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="5">
                                     <backgroundConfiguration key="background" cornerRadius="50"/>
-                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="36"/>
+                                    <fontDescription key="titleFontDescription" type="system" weight="black" pointSize="36"/>
                                     <color key="baseBackgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -177,7 +177,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="6">
                                     <backgroundConfiguration key="background" cornerRadius="50"/>
-                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="36"/>
+                                    <fontDescription key="titleFontDescription" type="system" weight="black" pointSize="36"/>
                                     <color key="baseBackgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -191,7 +191,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="-">
                                     <backgroundConfiguration key="background" cornerRadius="50"/>
-                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="36"/>
+                                    <fontDescription key="titleFontDescription" type="system" weight="black" pointSize="36"/>
                                     <color key="baseBackgroundColor" systemColor="systemOrangeColor"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -205,7 +205,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="1">
                                     <backgroundConfiguration key="background" cornerRadius="50"/>
-                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="36"/>
+                                    <fontDescription key="titleFontDescription" type="system" weight="black" pointSize="36"/>
                                     <color key="baseBackgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -219,7 +219,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="2">
                                     <backgroundConfiguration key="background" cornerRadius="50"/>
-                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="36"/>
+                                    <fontDescription key="titleFontDescription" type="system" weight="black" pointSize="36"/>
                                     <color key="baseBackgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -233,21 +233,21 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="3">
                                     <backgroundConfiguration key="background" cornerRadius="50"/>
-                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="36"/>
+                                    <fontDescription key="titleFontDescription" type="system" weight="black" pointSize="36"/>
                                     <color key="baseBackgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="onNumberClicked:forEvent:" destination="BYZ-38-t0r" eventType="touchUpInside" id="T2c-Tu-AiP"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2wm-sr-lAK">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2wm-sr-lAK">
                                 <rect key="frame" x="332" y="736" width="74" height="74"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" systemColor="tintColor"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="+">
                                     <backgroundConfiguration key="background" cornerRadius="50"/>
-                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="36"/>
+                                    <fontDescription key="titleFontDescription" type="system" weight="black" pointSize="36"/>
                                     <color key="baseBackgroundColor" systemColor="systemOrangeColor"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -261,7 +261,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="0">
                                     <backgroundConfiguration key="background" cornerRadius="50"/>
-                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="36"/>
+                                    <fontDescription key="titleFontDescription" type="system" weight="black" pointSize="36"/>
                                     <color key="baseBackgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -275,7 +275,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title=".">
                                     <backgroundConfiguration key="background" cornerRadius="50"/>
-                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="36"/>
+                                    <fontDescription key="titleFontDescription" type="system" weight="black" pointSize="36"/>
                                     <color key="baseBackgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -289,7 +289,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="=">
                                     <backgroundConfiguration key="background" cornerRadius="50"/>
-                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="36"/>
+                                    <fontDescription key="titleFontDescription" type="system" weight="black" pointSize="36"/>
                                     <color key="baseBackgroundColor" systemColor="systemOrangeColor"/>
                                 </buttonConfiguration>
                                 <connections>
